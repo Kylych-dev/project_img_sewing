@@ -20,7 +20,7 @@ class WarehouseViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         method="get",
         operation_description="Список Складов.",
-        query_serializer=WarehouseSerializer,
+        # query_serializer=WarehouseSerializer,
         operation_summary="Получить список складов",
         operation_id="list_warehouse",
         tags=["Склад"],
@@ -50,7 +50,7 @@ class WarehouseViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         method="get",
         operation_description="Получить склад.",
-        query_serializer=WarehouseSerializer,
+        # query_serializer=WarehouseSerializer,
         operation_summary="Получить один склад",
         operation_id="retrieve_warehouse",
         tags=["Склад"],

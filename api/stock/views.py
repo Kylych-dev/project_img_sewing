@@ -9,6 +9,10 @@ from drf_yasg.utils import swagger_auto_schema
 from apps2.stock.models import Stock
 from .serializers import StockSerializer
 
+import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 
@@ -19,7 +23,7 @@ class StockViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         method="get",
         operation_description="Список Сток.",
-        query_serializer=StockSerializer,
+        # query_serializer=StockSerializer,
         operation_summary="Получить список сток",
         operation_id="list_product",
         tags=["Сток"],
@@ -41,4 +45,5 @@ class StockViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["get"])
     def list(self, request, *args, **kwargs):
         serializer = self.serializer_class(self.queryset, many=True)
+        logger.warning('Homepage was accessed at '+str(datetime.datetime.now())+' hours!')
         return Response(serializer.data)
