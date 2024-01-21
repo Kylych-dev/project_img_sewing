@@ -20,18 +20,18 @@ class WarehouseViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         method="get",
         operation_description="Список Складов.",
-        query_serializer=WarehouseSerializer,
+        # query_serializer=WarehouseSerializer,
         operation_summary="Получить список складов",
         operation_id="list_warehouse",
         tags=["Склад"],
-        manual_parameters=[
-            openapi.Parameter(
-                "param_name",
-                openapi.IN_QUERY,
-                description="Описание параметра",
-                type=openapi.TYPE_STRING,
-            ),
-        ],
+        # manual_parameters=[
+        #     openapi.Parameter(
+        #         "param_name",
+        #         openapi.IN_QUERY,
+        #         description="Описание параметра",
+        #         type=openapi.TYPE_STRING,
+        #     ),
+        # ],
         responses={
             200: openapi.Response(description="OK - Список складов успешно получен"),
             400: openapi.Response(description="Bad Request - Неверный запрос"),
@@ -41,7 +41,7 @@ class WarehouseViewSet(viewsets.ModelViewSet):
     )
     @action(detail=True, methods=["get"])
     def list(self, request, *args, **kwargs):
-        serializer = self.serializer_class(self.queryset, many=True)
+        serializer = self.serializer_class(self.queryset)
         # serializer = self.serializer_class(self.get_object())
         return Response(serializer.data)
     
@@ -50,18 +50,18 @@ class WarehouseViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         method="get",
         operation_description="Получить склад.",
-        query_serializer=WarehouseSerializer,
+        # query_serializer=WarehouseSerializer,
         operation_summary="Получить один склад",
         operation_id="retrieve_warehouse",
         tags=["Склад"],
-        manual_parameters=[
-            openapi.Parameter(
-                "param_name",
-                openapi.IN_QUERY,
-                description="Описание параметра",
-                type=openapi.TYPE_STRING,
-            ),
-        ],
+        # manual_parameters=[
+        #     openapi.Parameter(
+        #         "param_name",
+        #         openapi.IN_QUERY,
+        #         description="Описание параметра",
+        #         type=openapi.TYPE_STRING,
+        #     ),
+        # ],
         responses={
             200: openapi.Response(description="OK - Продукт успешно получен"),
             400: openapi.Response(description="Bad Request - Неверный запрос"),

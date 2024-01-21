@@ -1,9 +1,11 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
+
 from api.shirt.views import ShirtModelViewSet
 from api.product.views import ProductViewSet
 from api.stock.views import StockViewSet
 from api.warehouse.views import WarehouseViewSet
+from api.cat.views import CatViewSet
 
 router = DefaultRouter(trailing_slash=False)
 
@@ -27,6 +29,15 @@ urlpatterns.extend([
     path('shirt/multiple_create2/', 
          ShirtModelViewSet.as_view({'post': 'multiple_create2'}), 
          name='multiple_create2'),
+    path(
+        "cat/<int:pk>/",
+        ShirtModelViewSet.as_view(
+            {
+                "post": "create",
+                "delete": "destroy",
+            }
+        ),
+    ),
 
 
     # Product
@@ -73,5 +84,17 @@ urlpatterns.extend([
     #         }
     #     ),
     # ),
+
+    # Cat
+    path("cat/", CatViewSet.as_view({"get": "list"})),
+    path("cat/<int:pk>/get_stock/", CatViewSet.as_view({"get": "retrieve"})),
+    path(
+        "cat/<int:pk>/",
+        CatViewSet.as_view(
+            {
+                "post": "create",
+            }
+        ),
+    ),
 ]
 )

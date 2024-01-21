@@ -19,7 +19,7 @@ class StockViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         method="get",
         operation_description="Список Сток.",
-        query_serializer=StockSerializer,
+        # query_serializer=StockSerializer,
         operation_summary="Получить список сток",
         operation_id="list_product",
         tags=["Сток"],

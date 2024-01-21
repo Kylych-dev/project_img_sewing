@@ -19,7 +19,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         method="get",
         operation_description="Список продуктов.",
-        query_serializer=ProductSerializer,
+        # query_serializer=ProductSerializer,
         operation_summary="Получить список продуктов",
         operation_id="list_product",
         tags=["Продукт"],
@@ -47,7 +47,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         method="get",
         operation_description="Получить продукт.",
-        query_serializer=ProductSerializer,
+        # query_serializer=ProductSerializer,
         operation_summary="Получить один продукт",
         operation_id="retrieve_product",
         tags=["Продукт"],
