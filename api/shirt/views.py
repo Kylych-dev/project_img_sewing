@@ -1,5 +1,8 @@
+from django.http import Http404
 from drf_spectacular.utils import extend_schema, OpenApiParameter, extend_schema_view
 from drf_yasg import openapi
+from django.utils import timezone
+
 from rest_framework import viewsets, status, serializers
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
@@ -7,8 +10,11 @@ from rest_framework.response import Response
 from apps.shirt.models import Shirt
 from .serializers import ShirtSerializer
 from drf_yasg.utils import swagger_auto_schema
+from ..base.base_logger import MyLogger
 
+import logging
 
+logger = logging.getLogger(__name__)
 
 
 class ShirtModelViewSet(viewsets.ModelViewSet):
@@ -23,10 +29,18 @@ class ShirtModelViewSet(viewsets.ModelViewSet):
     # queryset = Shirt.objects.filter(is_delete=False).select_related("warehouse")
     queryset = Shirt.objects.all()
 
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.logger = MyLogger('shirt_api_logger', log_file='excample_cat')
+
+        # self.logger = MyLogger('ShirtViewSet', log_file='excample_cat')
+
     @swagger_auto_schema(
         method='get',  # Определение HTTP-метода
         operation_description='text111',  # Описание операции
-        query_serializer=ShirtSerializer,  # Схема тела запроса
+        # query_serializer=ShirtSerializer,  # Схема тела запроса
         # query_serializer=CustomQuerySerializer,  # Сериализатор для параметров запроса
         manual_parameters=[  # Ручные параметры запроса
             openapi.Parameter(
@@ -44,7 +58,7 @@ class ShirtModelViewSet(viewsets.ModelViewSet):
             200: openapi.Response(description="Операция успешно завершена"),
             400: 'Bad Request'
         },
-        tags=['Рубашка'],  # Теги для операции
+        # tags=['Рубашка'],  # Теги для операции
     )
     @action(detail=True, methods=["get"])
     def list(self, request, *args, **kwargs):
@@ -73,35 +87,65 @@ class ShirtModelViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid()
             serializer.save()
+            logger.error(
+                "Успешно создан клиент",
+                exc_info=True,
+                extra={
+                'request_method': request.method,
+                'request_path': request.path,
+                'request_data': request.data,
+                'created_client_id': serializer.data.get('id')
+                }
+            )
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
             )
         except Exception as ex:
+            logger.error(
+                f"Ошибка при создании Образца рубашки (ShirtModelViewset): {serializer}"    
+	        )
             return Response(
                 {"Сообщение": str(ex)},
                 status=serializers.ValidationError("Illegal parameters")
             )
 
-   
 
-    @action(detail=True, method=["delete"])
+    @swagger_auto_schema(
+        method="delete",  # Определение HTTP-метода
+        operation_description='text111',  # Описание операции
+        operation_id='shirt_delete',  # Идентификатор операции
+        operation_summary='Delete of shirts',  # Краткое описание операции
+        security=[{'api_key': []}],  # Определение безопасности
+        # deprecated=True,  # Определение устаревшей операции
+        responses={  # Описания ответов на запрос
+            200: openapi.Response(description="Операция успешно завершена"),
+            404: 'Рубашка не найдена'
+        },
+        tags=['Рубашка'],  # Теги для операции
+    )
+
+    @action(detail=True, methods=["delete"])
     def destroy(self, request, *args, **kwargs):
         try:
             # instance = self.get_object()
             # instance.is_delete = True   # Помечаем объект как удаленный
             # instance.save()
+
+            self.logger.log_with_timezone("INFO", "Удаление рубашки")
             self.get_object().delete()
+            self.logger.log_with_timezone("INFO", "Рубашка успешно удалена")
             return Response(
-                {"Сообщение": "Клиент удален."},
+                {"Сообщение": "Рубашка удалена."},
                 status=status.HTTP_204_NO_CONTENT,
             )
-        except Shirt.DoesNotExist:
+        
+        except Http404:
+            self.logger.log_with_timezone("ERROR", "Рубашка не найдена (Http404)")
             return Response(
-                {"Сообщение": "Клиент не найден."},
+                {"Сообщение": "Рубашка не найдена."},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        
     
    
     @action(methods=["post"], detail=False)

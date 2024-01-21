@@ -71,7 +71,10 @@ INSTALLED_APPS = [
 
     # apps2
     'apps2.product',
-    'apps2.stock'
+    'apps2.stock',
+
+    # apps3
+    'apps3.cat'
 ]
 
 MIDDLEWARE = [
@@ -141,7 +144,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bishkek'
 
 USE_I18N = True
 
@@ -158,6 +162,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Post API", # название проекта
@@ -168,3 +180,7 @@ SPECTACULAR_SETTINGS = {
     },
     "COMPONENT_SPLIT_REQUEST": True
 }
+
+
+if DEBUG:
+    from .dev_settings import *
