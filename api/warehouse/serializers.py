@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from apps2.stock.models import Warehouse
+from main_apps.apps2.stock.models import Warehouse
 from api.product.serializers import ProductSerializer
 from api.stock.serializers import StockSerializer
 

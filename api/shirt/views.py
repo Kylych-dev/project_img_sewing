@@ -7,7 +7,7 @@ from rest_framework import viewsets, status, serializers
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from apps.shirt.models import Shirt
+from main_apps.apps.shirt.models import Shirt
 from .serializers import ShirtSerializer
 from drf_yasg.utils import swagger_auto_schema
 from ..base.base_logger import MyLogger

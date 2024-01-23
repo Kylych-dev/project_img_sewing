@@ -6,7 +6,7 @@ from rest_framework import serializers
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from apps2.stock.models import Stock
+from main_apps.apps2.stock.models import Stock
 from .serializers import StockSerializer
 
 import datetime

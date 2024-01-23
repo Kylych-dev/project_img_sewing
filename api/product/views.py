@@ -6,7 +6,7 @@ from rest_framework import serializers
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from apps2.product.models import Product
+from main_apps.apps2.product.models import Product
 from .serializers import ProductSerializer
 
 
