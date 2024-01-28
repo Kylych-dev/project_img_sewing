@@ -6,9 +6,36 @@ from rest_framework import serializers
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from apps2.product.models import Product
+from main_apps.apps2.product.models import Product
 from .serializers import ProductSerializer
 
+# from ..base import MyLogger 
+from ..base import configure_logger
+
+
+
+
+# import logging
+# import json
+# import sys
+
+# # Настройка логгера
+# logger = logging.getLogger("my_logger")
+# logger.setLevel(logging.DEBUG)
+
+# # Создание обработчика для вывода в консоль
+# console_handler = logging.StreamHandler(sys.stdout)
+
+# # Форматирование в виде JSON
+# json_formatter = logging.Formatter('{"timestamp": "%(asctime)s", "level": "%(levelname)s", "message": "%(message)s"}')
+
+# # Установка форматирования для обработчика
+# console_handler.setFormatter(json_formatter)
+
+# # Добавление обработчика к логгеру
+# logger.addHandler(console_handler)
+
+# my_logger = MyLogger().get_logger()
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -69,6 +96,11 @@ class ProductViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         # serializer = self.serializer_class(self.get_object, many=True)
         serializer = self.serializer_class(self.get_object())
+        print('start')
+        # logger().warning(f'ID:{kwargs["pk"]}, class: {__class__.__name__}, method: {self.action}') # for test this fine 
+        configure_logger().warning(f"Пользователь с ID ** {'user.id'} не найден", extra={"class": f"{self.__class__.__name__}.{self.action}"})
+        print('end')
+        
         return Response(
             serializer.data,
             status=status.HTTP_200_OK

@@ -31,7 +31,7 @@ urlpatterns.extend([
          name='multiple_create2'),
     path(
         "cat/<int:pk>/",
-        ShirtModelViewSet.as_view(
+        CatViewSet.as_view(
             {
                 "post": "create",
                 "delete": "destroy",

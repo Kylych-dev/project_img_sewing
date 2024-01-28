@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.shirt.models import Shirt
+from main_apps.apps.shirt.models import Shirt
 
 
 class ShirtSerializer(serializers.ModelSerializer):

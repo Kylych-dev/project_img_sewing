@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from apps3.cat.models import Cat, Owner
+from main_apps.apps3.cat.models import Cat, Owner
 
 
 class CatSerializer(serializers.ModelSerializer):

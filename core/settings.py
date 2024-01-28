@@ -67,14 +67,14 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     # apps
-    'apps.shirt',
+    'main_apps.apps.shirt',
 
     # apps2
-    'apps2.product',
-    'apps2.stock',
+    'main_apps.apps2.product',
+    'main_apps.apps2.stock',
 
     # apps3
-    'apps3.cat'
+    'main_apps.apps3.cat'
 ]
 
 MIDDLEWARE = [
@@ -146,6 +146,8 @@ LANGUAGE_CODE = 'en-us'
 
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Bishkek'
+
+TIME_FORMATE = "%d.%m.%Y %H:%M"
 
 USE_I18N = True
 
