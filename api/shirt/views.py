@@ -10,11 +10,17 @@ from rest_framework.response import Response
 from main_apps.apps.shirt.models import Shirt
 from .serializers import ShirtSerializer
 from drf_yasg.utils import swagger_auto_schema
-from ..base.base_logger import MyLogger
+from api.base.base_logger import MyLogger
 
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+# from ..base import configure_logger
+
+# logger = configure_logger()
+
 
 
 class ShirtModelViewSet(viewsets.ModelViewSet):
@@ -30,29 +36,18 @@ class ShirtModelViewSet(viewsets.ModelViewSet):
     queryset = Shirt.objects.all()
 
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
 
-        self.logger = MyLogger('shirt_api_logger', log_file='excample_cat')
+        # self.logger = MyLogger('shirt_api_logger', log_file='excample_cat')
 
         # self.logger = MyLogger('ShirtViewSet', log_file='excample_cat')
 
     @swagger_auto_schema(
         method='get',  # Определение HTTP-метода
         operation_description='text111',  # Описание операции
-        # query_serializer=ShirtSerializer,  # Схема тела запроса
-        # query_serializer=CustomQuerySerializer,  # Сериализатор для параметров запроса
-        manual_parameters=[  # Ручные параметры запроса
-            openapi.Parameter(
-                'param_name', 
-                openapi.IN_QUERY, 
-                description='Description', 
-                type=openapi.TYPE_STRING
-                )
-        ],
         operation_id='shirt_list',  # Идентификатор операции
         operation_summary='List of shirts',  # Краткое описание операции
-        security=[{'api_key': []}],  # Определение безопасности
         # deprecated=True,  # Определение устаревшей операции
         responses={  # Описания ответов на запрос
             200: openapi.Response(description="Операция успешно завершена"),
@@ -132,7 +127,7 @@ class ShirtModelViewSet(viewsets.ModelViewSet):
             # instance.is_delete = True   # Помечаем объект как удаленный
             # instance.save()
 
-            self.logger.log_with_timezone("INFO", "Удаление рубашки")
+            # self.logger.log_with_timezone("INFO", "Удаление рубашки")
             self.get_object().delete()
             self.logger.log_with_timezone("INFO", "Рубашка успешно удалена")
             return Response(

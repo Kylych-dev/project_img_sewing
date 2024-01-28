@@ -147,6 +147,8 @@ LANGUAGE_CODE = 'en-us'
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Bishkek'
 
+TIME_FORMATE = "%d.%m.%Y %H:%M"
+
 USE_I18N = True
 
 USE_TZ = True
